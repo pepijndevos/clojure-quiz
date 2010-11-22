@@ -1,0 +1,18 @@
+;clojure.core quiz
+
+(use 'clojure-quiz.core)
+
+;one of
+(doc-quiz)
+(name-quiz)
+(name-quiz-easy)
+What is the name of this function?
+Flip bit at index n
+A : bit-flip
+B : re-find
+C : alter
+a
+Correct!
+New score: 1
+What is the name of this function?
+...
