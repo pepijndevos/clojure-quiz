@@ -37,20 +37,22 @@
       (println (val a) ":" (key a)))
     (.toLowerCase (str (get ansmap (last question))))))
 
-(defn quiz [score questioner]
+(defn quiz [right wrong questioner]
   (let [correct (questioner)
-        answer (.toLowerCase (read-line))
-        score (if (= correct answer)
-                (do
-                  (println "Correct!")
-                  (inc score))
-                (do
-                  (println "Wrong!")
-                  (println "Was:" correct)
-                  score))]
-    (println "New score:" score)
-    (recur score questioner)))
+        answer (.toLowerCase (read-line))]
+    (if (= correct answer)
+      (do
+        (println "Correct!")
+        (let [right (inc right)]
+          (println "Right:" right ", Wrong:" wrong ", Ratio:" (if (pos? wrong) (/ right wrong) "-"))
+          (recur right wrong questioner)))
+      (do
+        (println "Wrong!")
+        (println "Was:" correct)
+        (let [wrong (inc wrong)]
+          (println "Right:" right ", Wrong:" wrong ", Ratio:" (if (pos? wrong) (/ right wrong) "-"))
+          (recur right wrong questioner))))))
 
-(def doc-quiz       (partial quiz 0 choose-doc))
-(def name-quiz      (partial quiz 0 guess-fn-name))
-(def name-quiz-easy (partial quiz 0 choose-fn-name))
+(def doc-quiz       (partial quiz 0 0 choose-doc))
+(def name-quiz      (partial quiz 0 0 guess-fn-name))
+(def name-quiz-easy (partial quiz 0 0 choose-fn-name))
