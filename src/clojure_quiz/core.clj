@@ -37,21 +37,22 @@
       (println (val a) ":" (key a)))
     (.toLowerCase (str (get ansmap (last question))))))
 
+(defmacro print-score [right wrong questioner]
+  `(do
+     (println "Right:" ~right ", Wrong:" ~wrong ", Percentage:" (int (* 100 (/ ~right (+ ~right ~wrong)))))
+     (recur ~right ~wrong ~questioner)))
+
 (defn quiz [right wrong questioner]
   (let [correct (questioner)
         answer (.toLowerCase (read-line))]
     (if (= correct answer)
       (do
         (println "Correct!")
-        (let [right (inc right)]
-          (println "Right:" right ", Wrong:" wrong ", Percentage:" (int (* 100 (/ right (+ right wrong)))))
-          (recur right wrong questioner)))
+        (print-score (inc right) wrong questioner))
       (do
         (println "Wrong!")
         (println "Was:" correct)
-        (let [wrong (inc wrong)]
-          (println "Right:" right ", Wrong:" wrong ", Percentage:" (int (* 100 (/ right (+ right wrong)))))
-          (recur right wrong questioner))))))
+        (print-score right (inc wrong) questioner)))))
 
 (def doc-quiz       (partial quiz 0 0 choose-doc))
 (def name-quiz      (partial quiz 0 0 guess-fn-name))
