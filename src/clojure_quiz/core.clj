@@ -44,13 +44,13 @@
       (do
         (println "Correct!")
         (let [right (inc right)]
-          (println "Right:" right ", Wrong:" wrong ", Ratio:" (if (pos? wrong) (/ right wrong) "-"))
+          (println "Right:" right ", Wrong:" wrong ", Percentage:" (int (* 100 (/ right (+ right wrong)))))
           (recur right wrong questioner)))
       (do
         (println "Wrong!")
         (println "Was:" correct)
         (let [wrong (inc wrong)]
-          (println "Right:" right ", Wrong:" wrong ", Ratio:" (if (pos? wrong) (/ right wrong) "-"))
+          (println "Right:" right ", Wrong:" wrong ", Percentage:" (int (* 100 (/ right (+ right wrong)))))
           (recur right wrong questioner))))))
 
 (def doc-quiz       (partial quiz 0 0 choose-doc))
